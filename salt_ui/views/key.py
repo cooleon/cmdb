@@ -45,7 +45,6 @@ def salt_key(request):
     key = key["return"]
     for i in key:
         context["minions_pre"] = i["data"]["return"]["minions_pre"]
-    print context
     context.update(csrf(request))
     return render_to_response('saltstack/salt_key_minion.html', context, context_instance=RequestContext(request))
 

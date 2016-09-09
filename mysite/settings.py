@@ -251,8 +251,8 @@ salt_passwd = '992a15aecbcf5727df775c45a35738cf'
 
 # zabbix api info
 zabbix_on = False
-zabbix_url = 'http://192.168.111.47:8080/zabbix'
+zabbix_url = 'http://219.134.132.194:8008/zabbix'
 zabbix_user = 'admin'
-zabbix_passwd = 'zabbix'
+zabbix_passwd = 'aBHYGEW9bUBvUgIxnIn4'
 
 

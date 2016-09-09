@@ -31,9 +31,9 @@ class salt_api_token(object):
             'CustomUser-agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
             "Accept": "application/x-yaml",
         }
-        s = {'expr_form': 'list', "client": "local_async"}
+        #s = {'expr_form': 'list', "client": "local_async"}
         self.headers.update(token)
-        self.data.update(s)
+        #self.data.update(s)
 
     def run(self):
         req = requests.post(self.url, headers=self.headers, data=self.data, verify=False)
@@ -82,7 +82,6 @@ class pxe_api(object):
             pxe_content_data = {'status': 110, 'result': u"pxe接口请求失败,请通知管理员检查接口请况"}
             return json.dumps(pxe_content_data)
         pxe_content_data = pxe_content.text
-        print pxe_content
         return pxe_content_data
 
 

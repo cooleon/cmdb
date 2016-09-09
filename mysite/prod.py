@@ -17,10 +17,10 @@ import os
 DEBUG = True
 website = "http://127.0.0.1"
 # salt api config
-salt_api_url = "https://127.0.0.1/"
+salt_api_url = "https://10.10.10.5:8000/"
 # salt_api_url = "https://salt-api.int.fun.tv/"
-salt_api_user = "salt"
-salt_api_pass = "8a26fb37f87a1e451daa1085ac597506"
+salt_api_user = "saltuser"
+salt_api_pass = "saltuser_pass"
 
 pxe_url_api = "http://192.168.115.180:8888/clone/"
 
@@ -44,8 +44,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         # 'NAME': 'voilet_cmdb_v1',  # Or path to database file if using sqlite3.
         'NAME': 'cmdb_v2',  # Or path to database file if using sqlite3.
-         'USER': 'root',
-         'PASSWORD': '123456',  # Not used with sqlite3.
+         'USER': 'mozbx',
+         'PASSWORD': 'VsfuTiAB3bfzgebbFf9d',  # Not used with sqlite3.
         'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',  # Set to empty string for default. Not used with sqlite3.
         "OPTIONS": {

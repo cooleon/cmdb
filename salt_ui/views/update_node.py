@@ -107,32 +107,37 @@ def salt_update_node(request):
         list = salt_api_token({'client': 'local', 'fun': 'grains.items', 'tgt': update_name, 'timeout': 100}, salt_api_url, {"X-Auth-Token": token_api_id})
         master_status = list.run()
         uf = Host_from()
+        print master_status
         for i in master_status["return"]:
             system_os = i[update_name]["os"]
             osarch = i[update_name]["osarch"]
             ipinfo = i[update_name]["hwaddr_interfaces"]["eth0"]
             mac = ipinfo.replace(":", "-")
-            if "eth0" in i[update_name]["ip_interfaces"]:
+            if "bond0" in i[update_name]["ip_interfaces"]:
+                context["eth0"] = i[update_name]["ip_interfaces"]["bond0"][0]
+            elif "eth0" in i[update_name]["ip_interfaces"]:
                 context["eth0"] = i[update_name]["ip_interfaces"]["eth0"][0]
             elif "em1" in i[update_name]["ip_interfaces"]:
                 context["eth0"] = i[update_name]["ip_interfaces"]["em1"][0]
             else:
                 context["eth0"] = "127.0.0.1"
             if "eth1" in i[update_name]["ip_interfaces"]:
-            # try:
-                context["eth1"] = i[update_name]["ip_interfaces"]["eth1"][0]
-            # except IndexError:
+                try:
+                    context["eth1"] = i[update_name]["ip_interfaces"]["eth1"][0]
+                except IndexError:
+                    context["eth1"] = False
             else:
                 context["eth1"] = False
             # ip = request.POST.get("eth1")
             # data = select_node(context["eth0"])
             try:
-                data = Host.objects.get(eth1=context["eth0"])
+                data, sta = Host.objects.get_or_create(eth1=context["eth0"])
                 data.node_name = i[update_name]["fqdn"]
+                data.system_cpuarch = i[update_name]["osarch"]
                 data.mac = mac
+                data.brand = i[update_name]["manufacturer"] + i[update_name]["productname"]
                 data.core_num = i[update_name]["num_cpus"]
                 data.system_version = i[update_name]["osrelease"]
-                data.system_cpuarch = i[update_name]["cpuarch"]
                 data.cpu = i[update_name]["cpu_model"]
                 data.memory = i[update_name]["mem_total"]
                 data.save()
@@ -140,15 +145,15 @@ def salt_update_node(request):
                 # return render_to_response('saltstack/node_add.html', context, context_instance=RequestContext(request))
 
             except:
-                context["vm"] = i[update_name]["virtual"]
-                context["cpu_model"] = i[update_name]["cpu_model"]
-                context["mem_total"] = i[update_name]["mem_total"]
-                context["update_name"] = update_name
-                context["mac"] = mac
+                #context["vm"] = i[update_name]["virtual"]
+                #context["cpu_model"] = i[update_name]["cpu_model"]
+                #context["mem_total"] = i[update_name]["mem_total"]
+                #context["update_name"] = update_name
+                #context["mac"] = mac
                 context["system_os"] = system_os
-                context["osarch"] = osarch
+                #context["osarch"] = osarch
                 context["uf"] = uf
-                context["os"] = i[update_name]["os"]
+                #context["os"] = i[update_name]["os"]
                 context["edit_brand"] = Server_System
                 context["edit_Cores"] = Cores
                 context["edit_system"] = System_os
